@@ -25,6 +25,7 @@
 -(void)viewDidLoad{
     //不要自动设置内边距
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
     [self addChildViewControllers];
     [self addNavigationLabels];
     

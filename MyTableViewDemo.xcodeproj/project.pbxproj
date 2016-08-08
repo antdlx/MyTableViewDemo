@@ -23,8 +23,10 @@
 		5A02EF8D1D562AB0009B82EB /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A02EF8C1D562AB0009B82EB /* FirstViewController.m */; };
 		5A02EF901D562BAD009B82EB /* NavigationLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A02EF8F1D562BAD009B82EB /* NavigationLabel.m */; };
 		5AA1F8D41D56D5AA00300D4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AA1F8D21D56D5AA00300D4D /* Main.storyboard */; };
-		5AA1F8D71D56D63900300D4D /* MRHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA1F8D61D56D63900300D4D /* MRHomeViewController.m */; };
 		5AA1F8DC1D5718FA00300D4D /* CellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA1F8DB1D5718FA00300D4D /* CellModel.m */; };
+		BF6E76BC1D586D3C00A66B65 /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6E76BB1D586D3C00A66B65 /* StarView.m */; };
+		BF6E76BF1D586DA100A66B65 /* icon_star_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = BF6E76BD1D586DA100A66B65 /* icon_star_yellow.png */; };
+		BF6E76C01D586DA100A66B65 /* icon_star_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = BF6E76BE1D586DA100A66B65 /* icon_star_gray.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,10 +74,12 @@
 		5A02EF8E1D562BAD009B82EB /* NavigationLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationLabel.h; path = View/NavigationLabel.h; sourceTree = "<group>"; };
 		5A02EF8F1D562BAD009B82EB /* NavigationLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavigationLabel.m; path = View/NavigationLabel.m; sourceTree = "<group>"; };
 		5AA1F8D31D56D5AA00300D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5AA1F8D51D56D63900300D4D /* MRHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRHomeViewController.h; path = Controller/MRHomeViewController.h; sourceTree = "<group>"; };
-		5AA1F8D61D56D63900300D4D /* MRHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRHomeViewController.m; path = Controller/MRHomeViewController.m; sourceTree = "<group>"; };
 		5AA1F8DA1D5718FA00300D4D /* CellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CellModel.h; path = Model/CellModel.h; sourceTree = "<group>"; };
 		5AA1F8DB1D5718FA00300D4D /* CellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellModel.m; path = Model/CellModel.m; sourceTree = "<group>"; };
+		BF6E76BA1D586D3C00A66B65 /* StarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StarView.h; path = View/StarView.h; sourceTree = "<group>"; };
+		BF6E76BB1D586D3C00A66B65 /* StarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StarView.m; path = View/StarView.m; sourceTree = "<group>"; };
+		BF6E76BD1D586DA100A66B65 /* icon_star_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star_yellow.png; sourceTree = "<group>"; };
+		BF6E76BE1D586DA100A66B65 /* icon_star_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star_gray.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,8 @@
 		5A02EF301D55EF2E009B82EB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BF6E76BD1D586DA100A66B65 /* icon_star_yellow.png */,
+				BF6E76BE1D586DA100A66B65 /* icon_star_gray.png */,
 				5A02EF691D55F267009B82EB /* p.png */,
 				5A02EF6A1D55F267009B82EB /* pp.png */,
 				5A02EF311D55EF2E009B82EB /* main.m */,
@@ -176,6 +182,8 @@
 			children = (
 				5AA1F8DA1D5718FA00300D4D /* CellModel.h */,
 				5AA1F8DB1D5718FA00300D4D /* CellModel.m */,
+				BF6E76BA1D586D3C00A66B65 /* StarView.h */,
+				BF6E76BB1D586D3C00A66B65 /* StarView.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -187,8 +195,6 @@
 				5A02EF891D562986009B82EB /* HomeViewController.m */,
 				5A02EF8B1D562AB0009B82EB /* FirstViewController.h */,
 				5A02EF8C1D562AB0009B82EB /* FirstViewController.m */,
-				5AA1F8D51D56D63900300D4D /* MRHomeViewController.h */,
-				5AA1F8D61D56D63900300D4D /* MRHomeViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -309,8 +315,10 @@
 			files = (
 				5A02EF7A1D562674009B82EB /* Model in Resources */,
 				5A02EF401D55EF2E009B82EB /* LaunchScreen.storyboard in Resources */,
+				BF6E76BF1D586DA100A66B65 /* icon_star_yellow.png in Resources */,
 				5A02EF6C1D55F267009B82EB /* pp.png in Resources */,
 				5A02EF7F1D562704009B82EB /* Controller in Resources */,
+				BF6E76C01D586DA100A66B65 /* icon_star_gray.png in Resources */,
 				5A02EF3D1D55EF2E009B82EB /* Assets.xcassets in Resources */,
 				5AA1F8D41D56D5AA00300D4D /* Main.storyboard in Resources */,
 				5A02EF6B1D55F267009B82EB /* p.png in Resources */,
@@ -341,8 +349,8 @@
 			files = (
 				5A02EF351D55EF2E009B82EB /* AppDelegate.m in Sources */,
 				1AC658C31D576FE000983A0E /* MyCell.m in Sources */,
+				BF6E76BC1D586D3C00A66B65 /* StarView.m in Sources */,
 				5A02EF901D562BAD009B82EB /* NavigationLabel.m in Sources */,
-				5AA1F8D71D56D63900300D4D /* MRHomeViewController.m in Sources */,
 				5A02EF321D55EF2E009B82EB /* main.m in Sources */,
 				5AA1F8DC1D5718FA00300D4D /* CellModel.m in Sources */,
 				5A02EF8A1D562986009B82EB /* HomeViewController.m in Sources */,

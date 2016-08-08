@@ -9,6 +9,7 @@
 #import "FirstViewController.h"
 #import "CellModel.h"
 #import "MyCell.h"
+#import "StarView.h"
 
 @interface FirstViewController() <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -32,7 +33,7 @@
     _datas = [[NSMutableArray alloc]init];
     
     for (int i = 0; i < 15; ++i) {
-        CellModel * model = [CellModel CellWithDict:[NSDictionary dictionaryWithObjectsAndKeys:@"p.png",@"image",[NSString stringWithFormat:@"item %d",i+1],@"titleLabel",[NSString stringWithFormat:@"this is detail of item %d",i+1],@"detailLabel",@"￥5.00",@"buttonText", nil]];
+        CellModel * model = [CellModel CellWithDict:[NSDictionary dictionaryWithObjectsAndKeys:@"p.png",@"image",[NSString stringWithFormat:@"item %d",i+1],@"titleLabel",@"游戏",@"kindsLabel",@"￥5.00",@"priceButtonText",[NSString stringWithFormat:@"%d",i+1],@"cellNumLabel", @300,@"starNum",nil]];
         [_datas addObject:model];
     }
     
@@ -57,14 +58,22 @@
     }
     
     NSInteger rowCount = indexPath.row;
-    UILabel *titleLabel = [cell viewWithTag:2];
-    UILabel *detailsLabel = [cell viewWithTag:3];
-    UIButton *button = [cell viewWithTag:4];
+    UILabel *numLabel = [cell viewWithTag:1];
+    UILabel *titleLabel = [cell viewWithTag:3];
+    UILabel *kindsLabel = [cell viewWithTag:4];
+    StarView * starView = [cell viewWithTag:5];
+    UILabel * UpNumLabel = [cell viewWithTag:6];
+    UIButton *button = [cell viewWithTag:7];
     
     CellModel * model = _datas[rowCount];
+    numLabel.text = model.cellNumLabel;
     titleLabel.text = model.titleLabel;
-    detailsLabel.text = model.detailLabel;
-    [button setTitle:model.buttonText forState:UIControlStateNormal];
+    kindsLabel.text = model.kindsLabel;
+    CGFloat percent = ((CGFloat)model.starNum / 1000);
+    NSLog(@"starNum is %ld ; percent is %f",(long)model.starNum,percent);
+    [starView setStarPercent:percent];
+    UpNumLabel.text = [NSString stringWithFormat:@"( %ld )",(long)model.starNum];
+    [button setTitle:model.priceButtonText forState:UIControlStateNormal];
     NSLog(@"cellForRowAtIndexPath");
     return cell;
 }
@@ -74,7 +83,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 66;
+    return 103;
 }
 
 @end
