@@ -60,7 +60,7 @@ static const CGFloat BLUE = 1.0;
 //    NSLog(@"LABEL_INDEX:%ld || scale is %f ; || red is %f ; green is %f", _LabelIndex,_scale,1-red,1-green);
     
     //大小缩放
-    CGFloat transformScale = 1 + (scale * 0.35);
+    CGFloat transformScale = 1 + (scale * 0.15);
     //x,y方向的放缩倍数
 //    self.transform = CGAffineTransformMakeScale(transformScale, transformScale);
     self.font = [UIFont systemFontOfSize:14 * transformScale];

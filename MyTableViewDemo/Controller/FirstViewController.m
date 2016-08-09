@@ -32,14 +32,25 @@
     
     _datas = [[NSMutableArray alloc]init];
     
-    for (int i = 0; i < 15; ++i) {
-        CellModel * model = [CellModel CellWithDict:[NSDictionary dictionaryWithObjectsAndKeys:@"p.png",@"image",[NSString stringWithFormat:@"item %d",i+1],@"titleLabel",@"游戏",@"kindsLabel",@"￥5.00",@"priceButtonText",[NSString stringWithFormat:@"%d",i+1],@"cellNumLabel", @300,@"starNum",nil]];
-        [_datas addObject:model];
-    }
+    [self initDatas];
+//    for (int i = 0; i < 15; ++i) {
+//        CellModel * model = [CellModel CellWithDict:[NSDictionary dictionaryWithObjectsAndKeys:@"p.png",@"image",[NSString stringWithFormat:@"item %d",i+1],@"titleLabel",@"游戏",@"kindsLabel",@"￥5.00",@"priceButtonText",[NSString stringWithFormat:@"%d",i+1],@"cellNumLabel", @300,@"starNum",nil]];
+//        [_datas addObject:model];
+//    }
     
     tableView.dataSource = self;
     tableView.delegate = self;
     
+}
+
+//加载plist中的数据
+-(void)initDatas{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"list_datas" ofType:@"plist"];
+    NSMutableDictionary *root = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+    for (int i = 1 ; i  <= [root count] ; ++i) {
+        CellModel *model = [CellModel CellWithDict:root[[NSString stringWithFormat:@"cell_data%d",i]]];
+        [_datas addObject:model];
+    }
 }
 
 
@@ -59,20 +70,36 @@
     
     NSInteger rowCount = indexPath.row;
     UILabel *numLabel = [cell viewWithTag:1];
+    UIImageView *imageView = [cell viewWithTag:2];
     UILabel *titleLabel = [cell viewWithTag:3];
     UILabel *kindsLabel = [cell viewWithTag:4];
     StarView * starView = [cell viewWithTag:5];
     UILabel * UpNumLabel = [cell viewWithTag:6];
     UIButton *button = [cell viewWithTag:7];
     
+    
     CellModel * model = _datas[rowCount];
-    numLabel.text = model.cellNumLabel;
-    titleLabel.text = model.titleLabel;
-    kindsLabel.text = model.kindsLabel;
-    CGFloat percent = ((CGFloat)model.starNum / 1000);
+    numLabel.text = model.cell_num;
+    //从网络获取图片
+    NSURL * url = [NSURL URLWithString:model.image_url];
+    NSData *image_data = [NSData dataWithContentsOfURL:url];
+    imageView.image = [UIImage imageWithData:image_data];
+    
+    titleLabel.text = model.title;
+    
+    kindsLabel.text = model.kinds;
+    
+    CGFloat percent = ((CGFloat)model.star_num / 1000);
     [starView setStarPercent:percent];
-    UpNumLabel.text = [NSString stringWithFormat:@"( %ld )",(long)model.starNum];
-    [button setTitle:model.priceButtonText forState:UIControlStateNormal];
+    
+    UpNumLabel.text = [NSString stringWithFormat:@"( %ld )",(long)model.star_num];
+    
+    if ([model.price isEqualToString:@"0"]) {
+        [button setTitle:@"免费" forState:UIControlStateNormal];
+    }else{
+        [button setTitle:[NSString stringWithFormat:@"￥%@",model.price] forState:UIControlStateNormal];
+    }
+    
     NSLog(@"cellForRowAtIndexPath");
     return cell;
 }

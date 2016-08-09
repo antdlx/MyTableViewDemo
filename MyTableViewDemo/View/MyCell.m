@@ -33,11 +33,11 @@
     image.tag = 2;
     [self.contentView addSubview:image];
     
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(109, 8, 212, 38)];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(109, 7, 212, 40)];
     titleLabel.text = @"title";
     titleLabel.tag = 3;
     titleLabel.textAlignment = NSTextAlignmentLeft;
-    titleLabel.font = [UIFont systemFontOfSize:20];
+    titleLabel.font = [UIFont systemFontOfSize:15];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     titleLabel.numberOfLines = 2;
@@ -47,7 +47,7 @@
     detailLabel.text = @"kinds";
     detailLabel.textColor = [UIColor grayColor];
     detailLabel.textAlignment = NSTextAlignmentLeft;
-    detailLabel.font = [UIFont systemFontOfSize:14];
+    detailLabel.font = [UIFont systemFontOfSize:12];
     detailLabel.backgroundColor = [UIColor clearColor];
     detailLabel.tag = 4;
     [self.contentView addSubview:detailLabel];
@@ -60,7 +60,7 @@
     upNum.text = @"( 666 )";
     upNum.textColor = [UIColor grayColor];
     upNum.textAlignment = NSTextAlignmentLeft;
-    upNum.font = [UIFont systemFontOfSize:14];
+    upNum.font = [UIFont systemFontOfSize:12];
     upNum.backgroundColor = [UIColor clearColor];
     upNum.tag = 6;
     [self.contentView addSubview:upNum];

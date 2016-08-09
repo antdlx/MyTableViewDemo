@@ -10,12 +10,12 @@
 
 @interface CellModel : NSObject
 
-@property(nonatomic,copy) NSString * image;
-@property(nonatomic,copy) NSString * titleLabel;
-@property(nonatomic,copy) NSString * kindsLabel;
-@property(nonatomic,copy) NSString * priceButtonText;
-@property(nonatomic,copy) NSString * cellNumLabel;
-@property(nonatomic,assign) NSInteger starNum;
+@property(nonatomic,copy) NSString * image_url;
+@property(nonatomic,copy) NSString * title;
+@property(nonatomic,copy) NSString * kinds;
+@property(nonatomic,copy) NSString * price;
+@property(nonatomic,copy) NSString * cell_num;
+@property(nonatomic,assign) NSInteger star_num;
 
 -(instancetype)initWithDict:(NSDictionary *)dict;
 +(instancetype)CellWithDict:(NSDictionary *)dict;

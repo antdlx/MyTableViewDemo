@@ -27,6 +27,7 @@
 		BF6E76BC1D586D3C00A66B65 /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6E76BB1D586D3C00A66B65 /* StarView.m */; };
 		BF6E76BF1D586DA100A66B65 /* icon_star_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = BF6E76BD1D586DA100A66B65 /* icon_star_yellow.png */; };
 		BF6E76C01D586DA100A66B65 /* icon_star_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = BF6E76BE1D586DA100A66B65 /* icon_star_gray.png */; };
+		BF70E7A71D59CEE500338A4F /* list_datas.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF70E7A61D59CEE500338A4F /* list_datas.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		BF6E76BB1D586D3C00A66B65 /* StarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StarView.m; path = View/StarView.m; sourceTree = "<group>"; };
 		BF6E76BD1D586DA100A66B65 /* icon_star_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star_yellow.png; sourceTree = "<group>"; };
 		BF6E76BE1D586DA100A66B65 /* icon_star_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_star_gray.png; sourceTree = "<group>"; };
+		BF70E7A61D59CEE500338A4F /* list_datas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = list_datas.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				5A02EF3E1D55EF2E009B82EB /* LaunchScreen.storyboard */,
 				5A02EF411D55EF2E009B82EB /* Info.plist */,
 				5A02EF301D55EF2E009B82EB /* Supporting Files */,
+				BF70E7A61D59CEE500338A4F /* list_datas.plist */,
 			);
 			path = MyTableViewDemo;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A02EF7A1D562674009B82EB /* Model in Resources */,
+				BF70E7A71D59CEE500338A4F /* list_datas.plist in Resources */,
 				5A02EF401D55EF2E009B82EB /* LaunchScreen.storyboard in Resources */,
 				BF6E76BF1D586DA100A66B65 /* icon_star_yellow.png in Resources */,
 				5A02EF6C1D55F267009B82EB /* pp.png in Resources */,

@@ -6,6 +6,8 @@
 //  Copyright © 2016 antdlx. All rights reserved.
 //
 
+//bug1：从标签1跳至标签3，标签1来不及完全变成白色。修复思路：在滑动结束的方法中判断当前是否是【滑动过后】的【第1/3】个标签，手动将另外一个来不及变色的设Scale为0；
+
 #import "HomeViewController.h"
 #import "FirstViewController.h"
 #import "NavigationLabel.h"
@@ -22,7 +24,6 @@
 
 @implementation HomeViewController
 
-//bug1：从标签1跳至标签3，标签1来不及完全变成白色。修复思路：在滑动结束的方法中判断当前是否是【滑动过后】的【第1/3】个标签，手动将另外一个来不及变色的设Scale为0；
 //修复bug1需要使用到的标记当前标签号的
 static NSInteger currentLabel = 0;
 //修补bug1使用到的标记scroll是否滑动过
@@ -43,15 +44,15 @@ static bool isScrolled = NO;
 -(void)addChildViewControllers{
     
     FirstViewController *fvc1 = [[FirstViewController alloc] init];
-    fvc1.title = @"First";
+    fvc1.title = @"付费";
     [self addChildViewController:fvc1];
     
     FirstViewController *fvc2 = [[FirstViewController alloc] init];
-    fvc2.title = @"Second";
+    fvc2.title = @"免费";
     [self addChildViewController:fvc2];
     
     FirstViewController *fvc3 = [[FirstViewController alloc] init];
-    fvc3.title = @"Third";
+    fvc3.title = @"畅销排行";
     [self addChildViewController:fvc3];
     
     CGSize size = [UIScreen mainScreen].bounds.size;
@@ -156,7 +157,6 @@ static bool isScrolled = NO;
 
 //  当手指抬起停止减速的时候会调用这个方法
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
     [self scrollViewDidEndScrollingAnimation:scrollView];
 }
 
