@@ -7,6 +7,7 @@
 //
 
 //bug1：从标签1跳至标签3，标签1来不及完全变成白色。修复思路：在滑动结束的方法中判断当前是否是【滑动过后】的【第1/3】个标签，手动将另外一个来不及变色的设Scale为0；
+//bug2: 页面没有提前预加载
 
 #import "HomeViewController.h"
 #import "FirstViewController.h"

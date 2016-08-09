@@ -26,8 +26,8 @@
 
     NSLog(@"First Load");
     self.view.backgroundColor = [UIColor blueColor];
-    
-    UITableView * tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 414, 708)];
+    //106是从storyboard中看到的y的偏移量
+    UITableView * tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-106)];
     [self.view addSubview:tableView];
     
     _datas = [[NSMutableArray alloc]init];
