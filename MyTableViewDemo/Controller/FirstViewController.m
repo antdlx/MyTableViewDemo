@@ -70,7 +70,6 @@
     titleLabel.text = model.titleLabel;
     kindsLabel.text = model.kindsLabel;
     CGFloat percent = ((CGFloat)model.starNum / 1000);
-    NSLog(@"starNum is %ld ; percent is %f",(long)model.starNum,percent);
     [starView setStarPercent:percent];
     UpNumLabel.text = [NSString stringWithFormat:@"( %ld )",(long)model.starNum];
     [button setTitle:model.priceButtonText forState:UIControlStateNormal];

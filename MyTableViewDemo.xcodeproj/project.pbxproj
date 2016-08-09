@@ -182,8 +182,6 @@
 			children = (
 				5AA1F8DA1D5718FA00300D4D /* CellModel.h */,
 				5AA1F8DB1D5718FA00300D4D /* CellModel.m */,
-				BF6E76BA1D586D3C00A66B65 /* StarView.h */,
-				BF6E76BB1D586D3C00A66B65 /* StarView.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -206,6 +204,8 @@
 				5A02EF8F1D562BAD009B82EB /* NavigationLabel.m */,
 				1AC658C11D576FE000983A0E /* MyCell.h */,
 				1AC658C21D576FE000983A0E /* MyCell.m */,
+				BF6E76BA1D586D3C00A66B65 /* StarView.h */,
+				BF6E76BB1D586D3C00A66B65 /* StarView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";

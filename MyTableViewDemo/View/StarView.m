@@ -69,7 +69,6 @@ static NSString * const ICON_STAR_GRAY = @"icon_star_gray.png";
 }
 
 -(void)setStarPercent:(CGFloat)starPercent{
-    NSLog(@"starView percent is %f",starPercent);
     _starPercent = starPercent;
     if (_starPercent > 1) {
         _starPercent = 1;

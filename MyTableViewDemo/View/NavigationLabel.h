@@ -12,5 +12,5 @@
 
 //缩放动画比例【？CG的数据类型？】
 @property(nonatomic,assign) CGFloat scale;
-
+-(instancetype)initWithFrame:(CGRect)frame withIndex:(NSInteger) index;
 @end

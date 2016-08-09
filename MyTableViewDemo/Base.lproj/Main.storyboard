@@ -97,7 +97,7 @@
             </objects>
             <point key="canvasLocation" x="318" y="-668"/>
         </scene>
-        <!--Language-->
+        <!--Store-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeViewController" sceneMemberID="viewController">
@@ -109,15 +109,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ym2-LB-DLy" userLabel="titleScrollView">
-                                <rect key="frame" x="0.0" y="64" width="600" height="30"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ym2-LB-DLy" userLabel="titleScrollView">
+                                <rect key="frame" x="103" y="70" width="395" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="CW4-RE-Wf2"/>
                                 </constraints>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chI-R8-gYN" userLabel="contentScrollView">
-                                <rect key="frame" x="0.0" y="94" width="600" height="506"/>
+                                <rect key="frame" x="0.0" y="106" width="600" height="494"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="vI2-wu-0FF"/>
@@ -128,14 +128,14 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ym2-LB-DLy" secondAttribute="trailing" id="2ov-0Y-7Iq"/>
                             <constraint firstItem="chI-R8-gYN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6RG-WR-aUE"/>
-                            <constraint firstItem="chI-R8-gYN" firstAttribute="top" secondItem="ym2-LB-DLy" secondAttribute="bottom" id="Gku-Ng-9kJ"/>
-                            <constraint firstItem="ym2-LB-DLy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="SWh-1F-0ZB"/>
+                            <constraint firstItem="chI-R8-gYN" firstAttribute="top" secondItem="ym2-LB-DLy" secondAttribute="bottom" constant="6" id="Gku-Ng-9kJ"/>
+                            <constraint firstItem="ym2-LB-DLy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="60" id="SWh-1F-0ZB"/>
                             <constraint firstAttribute="trailing" secondItem="chI-R8-gYN" secondAttribute="trailing" id="hjb-az-zMH"/>
-                            <constraint firstItem="ym2-LB-DLy" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="64" id="o9C-rS-tPE"/>
+                            <constraint firstItem="ym2-LB-DLy" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="70" id="o9C-rS-tPE"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="chI-R8-gYN" secondAttribute="bottom" id="r5W-5a-wgu"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Language" id="01f-SK-Yvb"/>
+                    <navigationItem key="navigationItem" title="Store" id="01f-SK-Yvb" userLabel="Store"/>
                     <connections>
                         <outlet property="contentScrollView" destination="chI-R8-gYN" id="a1f-9d-KB8"/>
                         <outlet property="titleScrollView" destination="ym2-LB-DLy" id="PbO-At-ouv"/>

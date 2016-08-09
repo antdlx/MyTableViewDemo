@@ -72,11 +72,12 @@
     //设置文字
     button.titleLabel.textAlignment = NSTextAlignmentCenter;
     button.titleLabel.font = [UIFont systemFontOfSize:15];
+    //注意：设置按钮字体颜色不能使用button.titleLabel.textColor方式
     [button setTitleColor:[UIColor blueColor]forState:UIControlStateNormal];
     button.titleLabel.text = @"￥ 18.00";
     //设置边框
     [button.layer setMasksToBounds:YES];
-    [button.layer setCornerRadius:3.0];
+    [button.layer setCornerRadius:5.0];
     [button.layer setBorderWidth:1.0];
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGColorRef colorref = CGColorCreate(colorSpace,(CGFloat[]){ 0, 0, 1, 1 });
