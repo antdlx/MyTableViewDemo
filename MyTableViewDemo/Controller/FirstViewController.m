@@ -62,7 +62,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString * index = @"cell";
+    static NSString * index = @"cell";
     MyCell * cell = [tableView dequeueReusableCellWithIdentifier:index];
     if (cell == nil) {
         cell = [[MyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:index];
@@ -84,6 +84,8 @@
     NSURL * url = [NSURL URLWithString:model.image_url];
     NSData *image_data = [NSData dataWithContentsOfURL:url];
     imageView.image = [UIImage imageWithData:image_data];
+    
+    
     
     titleLabel.text = model.title;
     

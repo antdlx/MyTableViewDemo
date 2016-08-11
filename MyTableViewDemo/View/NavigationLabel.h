@@ -2,7 +2,7 @@
 //  NavigationLabel.h
 //  MyTableViewDemo
 //
-//  Created by zhangwen on 8/6/16.
+//  Created by antdlxding on 8/6/16.
 //  Copyright © 2016 antdlx. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 @interface NavigationLabel : UILabel
 
-//缩放动画比例【？CG的数据类型？】
+//缩放动画比例
 @property(nonatomic,assign) CGFloat scale;
 -(instancetype)initWithFrame:(CGRect)frame withIndex:(NSInteger) index;
 @end

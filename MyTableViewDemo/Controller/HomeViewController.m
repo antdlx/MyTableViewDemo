@@ -6,9 +6,12 @@
 //  Copyright © 2016 antdlx. All rights reserved.
 //
 
-//bug1：从标签1跳至标签3，标签1来不及完全变成白色。修复思路：在滑动结束的方法中判断当前是否是【滑动过后】的【第1/3】个标签，手动将另外一个来不及变色的设Scale为0；
-//bug2: 页面没有提前预加载。未解决
+//bugs-description
+//bug1：从标签1跳至标签3，标签1来不及完全变成白色。修复思路1：在滑动结束的方法中判断当前是否是【滑动过后】的【第1/3】个标签，手动将另外一个来不及变色的设Scale为0；
+//修复方案2：尝试使用KVO监听contentOffset.x的值，给每个Label设置额外80像素作为捕获区间，在此区间使用KVO监听继续设置背景颜色，效果比方案1更加连贯
+//bug2: 页面没有提前预加载。修复方案：应与回收复用同时考虑
 //bug3：tableView最后一行显示不完整。方案是：tableView.frame.size.height设置不合适
+//bug4:图片加载未使用异步方法，网络不好时易造成主线程无响应。修复方案：图片使用异步方法加载，不然会使主线程失去响应
 
 #import "HomeViewController.h"
 #import "FirstViewController.h"
@@ -24,14 +27,16 @@
 
 @end
 
+//修复bug1需要使用到的标记当前标签号的
+//static NSInteger currentLabel = 0;
+//修补bug1使用到的标记scroll是否滑动过,解决方案1，已弃用
+//static bool isScrolled = NO;
+//static CGFloat OffsetX = 0.0;
+
 @implementation HomeViewController
 
-//修复bug1需要使用到的标记当前标签号的
-static NSInteger currentLabel = 0;
-//修补bug1使用到的标记scroll是否滑动过
-static bool isScrolled = NO;
-
 -(void)viewDidLoad{
+    [super viewDidLoad];
     //不要自动设置内边距
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -65,6 +70,8 @@ static bool isScrolled = NO;
     //防止上下两个ScrollView不协调，禁止越界行为
     self.contentScrollView.bounces = NO;
     
+    //添加KVO
+    [self.contentScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld   context:nil];
     
 }
 
@@ -120,21 +127,54 @@ static bool isScrolled = NO;
     [self.contentScrollView setContentOffset:offset animated:YES];
 }
 
+
+//KVO监听器，修复bug1的方案2
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+    if ([object isKindOfClass:[UIScrollView class]]) {
+        //获取必要的临时数据
+        NSInteger offsetX = self.contentScrollView.contentOffset.x;
+        NSInteger screenWidth = MAINSCREENWIDTH;
+
+        NavigationLabel * labelLeft = self.titleScrollView.subviews[0];
+        NavigationLabel * labelRight = self.titleScrollView.subviews[1];
+        
+        //在从0->2滑动时，在0->1之后继续给0分配80像素的滑动空间用于方法回调容错时间，保证0页面scale一定置零
+        if ( offsetX > screenWidth && offsetX < screenWidth + 80 && labelLeft.scale != 0) {
+            labelLeft.scale = 0.0;
+        }
+        //在从2->0滑动时，在2->1之后继续给2分配80像素的滑动空间用于方法回调容错时间，保证2页面scale一定置零
+        if (offsetX < screenWidth && offsetX > screenWidth - 80 && labelRight != 0) {
+            labelRight.scale = 0.0;
+        }
+    }
+}
+
+//注销KVO监听器，修复bug1的方案2。在ARC方案下最好不要写到dealloc方法中
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    @try {
+        [self.contentScrollView removeObserver:self forKeyPath:@"contentOffset"];
+    } @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+}
+
+
 #pragma mark - <UIScrollViewDelegate>
 
 //当滑动结束时会调用这个方法
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     
-    //修复bug1，如果是滑动之后停下来的，且滑动最后停止在第一（三）个标签，就手动把第三（一）个设置Scale=0；
-    if (currentLabel  == 2 && isScrolled) {
-        NavigationLabel * label = self.titleScrollView.subviews[0];
-        label.scale = 0.0;
-    }
-    if (currentLabel == 0 && isScrolled) {
-        NavigationLabel * label = self.titleScrollView.subviews[1];
-        label.scale = 0.0;
-    }
-    isScrolled = NO;
+//修复bug1的方案一【已弃用】，如果是滑动之后停下来的，且滑动最后停止在第一（三）个标签，就手动把第三（一）个设置Scale=0；
+//    if (currentLabel  == 2 && isScrolled) {
+//        NavigationLabel * label = self.titleScrollView.subviews[0];
+//        label.scale = 0.0;
+//    }
+//    if (currentLabel == 0 && isScrolled) {
+//        NavigationLabel * label = self.titleScrollView.subviews[1];
+//        label.scale = 0.0;
+//    }
+//    isScrolled = NO;
     
     //需要的临时变量
     CGFloat width = scrollView.frame.size.width;
@@ -166,11 +206,10 @@ static bool isScrolled = NO;
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     //TitleScrollView的滑动逻辑
     CGFloat scale = scrollView.contentOffset.x / scrollView.frame.size.width;
-//    NSLog(@"contentOffset.X is %f ; frameSizeWidth is %f ; scale is %f",scrollView.contentOffset.x ,scrollView.frame.size.width,scale);
-    
-    //修补bug1需要使用的全局变量
-    currentLabel = scale;
-    isScrolled = YES;
+
+//修补bug1需要使用的全局变量
+//    currentLabel = scale;
+//    isScrolled = YES;
     
     // 获取需要操作的的左边的Label
     NSInteger leftIndex = scale;

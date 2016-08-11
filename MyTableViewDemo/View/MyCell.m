@@ -11,6 +11,9 @@
 
 @interface MyCell ()
 
+//通常会将cell中的组件通过属性的形式进行调用，而不是使用tag
+//@property (nonatomic , strong) UILabel * cellNum;
+
 @end
 
 @implementation MyCell
