@@ -10,6 +10,7 @@
 #import "CellModel.h"
 #import "MyCell.h"
 #import "StarView.h"
+#import "UIImageView+WebCache.h"
 
 @interface FirstViewController() <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -81,10 +82,10 @@
     CellModel * model = _datas[rowCount];
     numLabel.text = model.cell_num;
     //从网络获取图片
-    NSURL * url = [NSURL URLWithString:model.image_url];
-    NSData *image_data = [NSData dataWithContentsOfURL:url];
-    imageView.image = [UIImage imageWithData:image_data];
-    
+//    NSURL * url = [NSURL URLWithString:model.image_url];
+//    NSData *image_data = [NSData dataWithContentsOfURL:url];
+//    imageView.image = [UIImage imageWithData:image_data];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:model.image_url]];
     
     
     titleLabel.text = model.title;

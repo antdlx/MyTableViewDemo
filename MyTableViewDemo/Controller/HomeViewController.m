@@ -8,7 +8,7 @@
 
 //bugs-description
 //bug1：从标签1跳至标签3，标签1来不及完全变成白色。修复思路1：在滑动结束的方法中判断当前是否是【滑动过后】的【第1/3】个标签，手动将另外一个来不及变色的设Scale为0；
-//修复方案2：尝试使用KVO监听contentOffset.x的值，给每个Label设置额外80像素作为捕获区间，在此区间使用KVO监听继续设置背景颜色，效果比方案1更加连贯
+//修复方案2：尝试使用KVO监听contentOffset.x的值，给每个Label设置额外1/5屏宽像素作为捕获区间，在此区间使用KVO监听继续设置背景颜色，效果比方案1更加连贯
 //bug2: 页面没有提前预加载。修复方案：应与回收复用同时考虑
 //bug3：tableView最后一行显示不完整。方案是：tableView.frame.size.height设置不合适
 //bug4:图片加载未使用异步方法，网络不好时易造成主线程无响应。修复方案：图片使用异步方法加载，不然会使主线程失去响应
@@ -138,12 +138,12 @@
         NavigationLabel * labelLeft = self.titleScrollView.subviews[0];
         NavigationLabel * labelRight = self.titleScrollView.subviews[1];
         
-        //在从0->2滑动时，在0->1之后继续给0分配80像素的滑动空间用于方法回调容错时间，保证0页面scale一定置零
-        if ( offsetX > screenWidth && offsetX < screenWidth + 80 && labelLeft.scale != 0) {
+        //在从0->2滑动时，在0->1之后继续给0分配1/5屏宽像素的滑动空间用于方法回调容错时间，保证0页面scale一定置零
+        if ( offsetX > screenWidth && offsetX < screenWidth*6/5 && labelLeft.scale != 0) {
             labelLeft.scale = 0.0;
         }
-        //在从2->0滑动时，在2->1之后继续给2分配80像素的滑动空间用于方法回调容错时间，保证2页面scale一定置零
-        if (offsetX < screenWidth && offsetX > screenWidth - 80 && labelRight != 0) {
+        //在从2->0滑动时，在2->1之后继续给2分配1/5屏宽像素的滑动空间用于方法回调容错时间，保证2页面scale一定置零
+        if (offsetX < screenWidth && offsetX > screenWidth*4/5 && labelRight != 0) {
             labelRight.scale = 0.0;
         }
     }
