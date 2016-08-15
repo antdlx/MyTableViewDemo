@@ -1,8 +1,15 @@
 # MyTableViewDemo
-An iOS Learning Demo about CustomUITableView and UIScrollView
+An iOS Learning Demo about CustomUITableView and UIScrollView<br>
+And it is a high imitation of Apple App Store<br>
 
 ***
-###Version 1.0<br>
+###knowledge points:<br>
 CustomeTableView<br>
-ScrollViewPaging
+ScrollViewPaging<br>
+KVO<br>
+asyn<br>
+3rd:SDWebImageView
 
+***
+Preview：<br>
+![TableViewDemoPreViewImage.png](http://7xawto.com1.z0.glb.clouddn.com/MyTableViewDemoPreview.png "TableViewDemoPreViewImage.png")
