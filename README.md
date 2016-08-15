@@ -7,7 +7,8 @@ And it is a high imitation of Apple App Store<br>
 CustomeTableView<br>
 ScrollViewPaging<br>
 KVO<br>
-asyn<br>
+Async<br>
+Image 2 level caches<br>
 3rd:SDWebImageView
 
 ***
