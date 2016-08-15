@@ -3,7 +3,7 @@
 //  CellDownloadImage
 //
 //  Created by 丁龙翔 on 16/8/14.
-// 
+//  Copyright © 2016 antdlx. All rights reserved.
 //
 
 #import "UIImageView+CellAsyncImage.h"
@@ -76,7 +76,6 @@ static NSOperationQueue * queue = nil;
         NSString* CachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
         NSString* filePath = [CachesPath stringByAppendingPathComponent:[url lastPathComponent]];
         NSData* ImageData = [NSData dataWithContentsOfFile:filePath];
-        
         
         if (ImageData) { // 缓存中有图片
             self.image = [UIImage imageWithData:ImageData];

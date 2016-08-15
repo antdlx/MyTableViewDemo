@@ -3,7 +3,7 @@
 //  CellDownloadImage
 //
 //  Created by 丁龙翔 on 16/8/14.
-//
+//  Copyright © 2016 antdlx. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
