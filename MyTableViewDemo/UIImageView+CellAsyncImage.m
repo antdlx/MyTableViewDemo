@@ -3,7 +3,7 @@
 //  CellDownloadImage
 //
 //  Created by 丁龙翔 on 16/8/14.
-//  Copyright © 2016年 洪峰. All rights reserved.
+// 
 //
 
 #import "UIImageView+CellAsyncImage.h"
@@ -75,11 +75,11 @@ static NSOperationQueue * queue = nil;
         // 获得caches的路径, 拼接文件路径
         NSString* CachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
         NSString* filePath = [CachesPath stringByAppendingPathComponent:[url lastPathComponent]];
-        NSData* ImgaeData = [NSData dataWithContentsOfFile:filePath];
+        NSData* ImageData = [NSData dataWithContentsOfFile:filePath];
         
         
-        if (ImgaeData) { // 缓存中有图片
-            self.image = [UIImage imageWithData:ImgaeData];
+        if (ImageData) { // 缓存中有图片
+            self.image = [UIImage imageWithData:ImageData];
         }else{ // 缓存中没有图片，需要下载
             
             // 显示占位图片
