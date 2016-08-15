@@ -23,8 +23,8 @@ static NSString * const ICON_STAR_GRAY = @"icon_star_gray.png";
 @implementation StarView
 
 -(instancetype)init{
-    NSAssert(NO, @"you should not use this method to init, please use initWithFrame:numberOfStars");
-    return nil;
+//    NSAssert(NO, @"you should not use this method to init, please use initWithFrame:numberOfStars");
+    return [self initWithFrame:CGRectMake(0, 0, 100, 100) numberOfStars:DEAFAULT_STAR_NUM];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {

@@ -109,7 +109,9 @@ static NSOperationQueue * queue = nil;
                         
                         // 从字典中移除下载操作 (防止operations越来越大，保证下载失败后，能重新下载)
                         [operations removeObjectForKey:url];
-                        [tableview reloadRowsAtIndexPaths:indexPath withRowAnimation:animation];
+                        //indexPath是会造成重用错位的问题的，这里不能这样写。因为这是UIImageView的category，所以直接self设置image就可以了
+//                        [tableview reloadRowsAtIndexPaths:indexPath withRowAnimation:animation];
+                        self.image = image;
                     }];
                 }];
                 //添加操作到队列中

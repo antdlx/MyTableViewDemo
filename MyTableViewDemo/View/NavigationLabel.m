@@ -19,8 +19,8 @@ static const CGFloat BLUE = 1.0;
 @implementation NavigationLabel
 
 -(instancetype)initWithFrame:(CGRect)frame{
-    NSAssert(NO, @"you shoule not use this function, please use 'initWithFrame:withIndex' instead");
-    return nil;
+//    NSAssert(NO, @"you shoule not use this function, please use 'initWithFrame:withIndex' instead");
+    return [self initWithFrame:frame withIndex:0];
 }
 
 -(instancetype)initWithFrame:(CGRect)frame withIndex:(NSInteger)index{

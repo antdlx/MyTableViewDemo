@@ -55,7 +55,6 @@
 #pragma mark - <UITableViewDataSource>
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"numberOfRowsInSection %lu",(unsigned long)[_datas count]);
     return [_datas count];
 }
 
@@ -65,7 +64,6 @@
     if (cell == nil) {
         cell = [[MyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:index];
     }
-    
     
     NSInteger rowCount = indexPath.row;
     CellModel * model = _datas[rowCount];
