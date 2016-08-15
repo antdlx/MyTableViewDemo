@@ -10,7 +10,8 @@
 #import "CellModel.h"
 #import "MyCell.h"
 #import "StarView.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
+#import "UIImageView+CellAsyncImage.h"
 
 @interface FirstViewController() <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -34,10 +35,6 @@
     _datas = [[NSMutableArray alloc]init];
     
     [self initDatas];
-//    for (int i = 0; i < 15; ++i) {
-//        CellModel * model = [CellModel CellWithDict:[NSDictionary dictionaryWithObjectsAndKeys:@"p.png",@"image",[NSString stringWithFormat:@"item %d",i+1],@"titleLabel",@"游戏",@"kindsLabel",@"￥5.00",@"priceButtonText",[NSString stringWithFormat:@"%d",i+1],@"cellNumLabel", @300,@"starNum",nil]];
-//        [_datas addObject:model];
-//    }
     
     tableView.dataSource = self;
     tableView.delegate = self;
@@ -69,50 +66,35 @@
         cell = [[MyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:index];
     }
     
+    
     NSInteger rowCount = indexPath.row;
-    UILabel *numLabel = [cell viewWithTag:1];
-    UIImageView *imageView = [cell viewWithTag:2];
-    UILabel *titleLabel = [cell viewWithTag:3];
-    UILabel *kindsLabel = [cell viewWithTag:4];
-    StarView * starView = [cell viewWithTag:5];
-    UILabel * UpNumLabel = [cell viewWithTag:6];
-    UIButton *button = [cell viewWithTag:7];
-    
-    
     CellModel * model = _datas[rowCount];
-    numLabel.text = model.cell_num;
-    //从网络获取图片
-//    NSURL * url = [NSURL URLWithString:model.image_url];
-//    NSData *image_data = [NSData dataWithContentsOfURL:url];
-//    imageView.image = [UIImage imageWithData:image_data];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:model.image_url]];
+    //最好不要在这里渲染cell的代码可以写到MyCell中去，传一个cellModel过去,所以使用以下这个方法
+    [cell GenerateCellWithModel:model andTableView:tableView andIndexPath:indexPath];
     
-    
-    titleLabel.text = model.title;
-    
-    kindsLabel.text = model.kinds;
-    
-    CGFloat percent = ((CGFloat)model.star_num / 1000);
-    [starView setStarPercent:percent];
-    
-    UpNumLabel.text = [NSString stringWithFormat:@"( %ld )",(long)model.star_num];
-    
-    if ([model.price isEqualToString:@"0"]) {
-        [button setTitle:@"免费" forState:UIControlStateNormal];
-    }else{
-        [button setTitle:[NSString stringWithFormat:@"￥%@",model.price] forState:UIControlStateNormal];
-    }
-    
-    NSLog(@"cellForRowAtIndexPath");
     return cell;
 }
 
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    //内存警告时释放占用的资源
+    [UIImageView CancelQueueOperation];
+    [UIImageView RemoveImages];
+    [UIImageView RemoveOperations];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 103;
+}
+
+//为了防止cell重用导致的错位加载问题，只有在滑动结束的时候才继续下载任务
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [UIImageView RestartQueue];
+}
+
+//为了防止cell重用导致的错位加载问题，在滑动的时候暂停任务队列中的任务（其实是不添加新的任务）
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [UIImageView SuspendQueue];
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import "MyCell.h"
 #import "StarView.h"
+#import "CellModel.h"
+#import "UIImageView+CellAsyncImage.h"
 
 @interface MyCell ()
 
@@ -91,6 +93,43 @@
     
     return self;
     
+}
+
+//渲染每个cell的UI
+-(void)GenerateCellWithModel:(CellModel *)model andTableView:(UITableView *)tableview andIndexPath:(NSIndexPath *)indexPath{
+    UILabel *numLabel = [self viewWithTag:1];
+    UIImageView *imageView = [self viewWithTag:2];
+    UILabel *titleLabel = [self viewWithTag:3];
+    UILabel *kindsLabel = [self viewWithTag:4];
+    StarView * starView = [self viewWithTag:5];
+    UILabel * UpNumLabel = [self viewWithTag:6];
+    UIButton *button = [self viewWithTag:7];
+
+    numLabel.text = model.cell_num;
+    //从网络获取图片
+    //method1: 直接下载
+    //    NSURL * url = [NSURL URLWithString:model.image_url];
+    //    NSData *image_data = [NSData dataWithContentsOfURL:url];
+    //    imageView.image = [UIImage imageWithData:image_data];
+    //method2：SDWebimageView
+    //    [imageView sd_setImageWithURL:[NSURL URLWithString:model.image_url]];
+    [imageView setImageViewWithURL:model.image_url andTableView:tableview andIndexPath:@[indexPath] andCellAnimation:UITableViewRowAnimationNone];
+    
+    
+    titleLabel.text = model.title;
+    
+    kindsLabel.text = model.kinds;
+    
+    CGFloat percent = ((CGFloat)model.star_num / 1000);
+    [starView setStarPercent:percent];
+    
+    UpNumLabel.text = [NSString stringWithFormat:@"( %ld )",(long)model.star_num];
+    
+    if ([model.price isEqualToString:@"0"]) {
+        [button setTitle:@"免费" forState:UIControlStateNormal];
+    }else{
+        [button setTitle:[NSString stringWithFormat:@"￥%@",model.price] forState:UIControlStateNormal];
+    }
 }
 
 @end
