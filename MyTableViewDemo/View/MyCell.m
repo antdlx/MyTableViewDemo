@@ -112,7 +112,7 @@
     //    NSData *image_data = [NSData dataWithContentsOfURL:url];
     //    imageView.image = [UIImage imageWithData:image_data];
     //method2：SDWebimageView
-    //    [imageView sd_setImageWithURL:[NSURL URLWithString:model.image_url]];
+//        [imageView sd_setImageWithURL:[NSURL URLWithString:model.image_url]];
     [imageView setImageViewWithURL:model.image_url andTableView:tableview andIndexPath:@[indexPath] andCellAnimation:UITableViewRowAnimationNone];
     
     
