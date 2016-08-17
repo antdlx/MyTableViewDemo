@@ -241,8 +241,12 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
           dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    //获取http头
+    NSDictionary* dict = [(NSHTTPURLResponse *)response allHeaderFields];
+    NSLog(@"response is %@",dict);
     
     //'304 Not Modified' is an exceptional one
+    //下载图片成功且不是304
     if (![response respondsToSelector:@selector(statusCode)] || ([((NSHTTPURLResponse *)response) statusCode] < 400 && [((NSHTTPURLResponse *)response) statusCode] != 304)) {
         NSInteger expected = response.expectedContentLength > 0 ? (NSInteger)response.expectedContentLength : 0;
         self.expectedSize = expected;
@@ -256,6 +260,7 @@ didReceiveResponse:(NSURLResponse *)response
             [[NSNotificationCenter defaultCenter] postNotificationName:SDWebImageDownloadReceiveResponseNotification object:self];
         });
     }
+    //下载图片失败或者状态码是304
     else {
         NSUInteger code = [((NSHTTPURLResponse *)response) statusCode];
         
@@ -271,6 +276,8 @@ didReceiveResponse:(NSURLResponse *)response
         });
         
         if (self.completedBlock) {
+            //设置完成后执行的block，仅在失败的时候执行
+            NSLog(@"status code is %ld",[((NSHTTPURLResponse *)response) statusCode]);
             self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil], YES);
         }
         [self done];

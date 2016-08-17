@@ -11,7 +11,7 @@
 #import "MyCell.h"
 #import "StarView.h"
 //#import "UIImageView+WebCache.h"
-#import "UIImageView+CellAsyncImage.h"
+//#import "UIImageView+CellAsyncImage.h"
 
 @interface FirstViewController() <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -76,9 +76,9 @@
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     //内存警告时释放占用的资源
-    [UIImageView CancelQueueOperation];
-    [UIImageView RemoveImages];
-    [UIImageView RemoveOperations];
+//    [UIImageView CancelQueueOperation];
+//    [UIImageView RemoveImages];
+//    [UIImageView RemoveOperations];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -86,13 +86,13 @@
 }
 
 //为了防止cell重用导致的错位加载问题，只有在滑动结束的时候才继续下载任务
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    [UIImageView RestartQueue];
-}
+//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//    [UIImageView RestartQueue];
+//}
 
 //为了防止cell重用导致的错位加载问题，在滑动的时候暂停任务队列中的任务（其实是不添加新的任务）
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    [UIImageView SuspendQueue];
-}
+//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+//    [UIImageView SuspendQueue];
+//}
 
 @end

@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic, readwrite) SDImageCache *imageCache;
 @property (strong, nonatomic, readwrite) SDWebImageDownloader *imageDownloader;
+//下载失败的黑名单
 @property (strong, nonatomic) NSMutableSet *failedURLs;
 @property (strong, nonatomic) NSMutableArray *runningOperations;
 
@@ -133,8 +134,10 @@
     __block SDWebImageCombinedOperation *operation = [SDWebImageCombinedOperation new];
     __weak SDWebImageCombinedOperation *weakOperation = operation;
 
+    //判断是否是下载失败的URL
     BOOL isFailedUrl = NO;
     @synchronized (self.failedURLs) {
+        //下载失败的URL由一个Array来进行维护，这个array是一个黑名单
         isFailedUrl = [self.failedURLs containsObject:url];
     }
 
@@ -202,7 +205,7 @@
                         }
                     });
 
-                    if (   error.code != NSURLErrorNotConnectedToInternet
+                    if ( error.code != NSURLErrorNotConnectedToInternet
                         && error.code != NSURLErrorCancelled
                         && error.code != NSURLErrorTimedOut
                         && error.code != NSURLErrorInternationalRoamingOff

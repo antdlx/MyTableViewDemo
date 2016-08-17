@@ -66,6 +66,7 @@ static char TAG_ACTIVITY_SHOW;
         //由SDWebImageManager负责下载图片
         id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             [wself removeActivityIndicator];
+
             if (!wself) return;
             //获取图片到主线程层展现出来
             dispatch_main_sync_safe(^{
@@ -78,7 +79,9 @@ static char TAG_ACTIVITY_SHOW;
                 else if (image) {
                     wself.image = image;
                     [wself setNeedsLayout];
-                } else {
+                }
+                //没有获取到图片的时候执行
+                else {
                     if ((options & SDWebImageDelayPlaceholder)) {
                         wself.image = placeholder;
                         [wself setNeedsLayout];
