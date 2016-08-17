@@ -149,8 +149,9 @@
     @synchronized (self.runningOperations) {
         [self.runningOperations addObject:operation];
     }
+    //根据URL生成相应的key
     NSString *key = [self cacheKeyForURL:url];
-
+    //到cache和磁盘中查找图片，queryDiskCacheForKey这个方法自动先查找内存缓存再查找磁盘缓存
     operation.cacheOperation = [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) {
         if (operation.isCancelled) {
             @synchronized (self.runningOperations) {
@@ -159,8 +160,9 @@
 
             return;
         }
-
+        //如果image没有找到或者使用的是SDWebImageRefreshCached选项，那么我们就要从网络上进行下载
         if ((!image || options & SDWebImageRefreshCached) && (![self.delegate respondsToSelector:@selector(imageManager:shouldDownloadImageForURL:)] || [self.delegate imageManager:self shouldDownloadImageForURL:url])) {
+            //如果图片可以找到，但是使用的是SDWebImageRefreshCached选项，那么通知找到了图片，并且从新从网络下载，下载完成后使用NSURLCache进行刷新
             if (image && options & SDWebImageRefreshCached) {
                 dispatch_main_sync_safe(^{
                     // If image was found in the cache but SDWebImageRefreshCached is provided, notify about the cached image
@@ -169,6 +171,7 @@
                 });
             }
 
+            //下载的一些设置
             // download if no image or requested to refresh anyway, and download allowed by delegate
             SDWebImageDownloaderOptions downloaderOptions = 0;
             if (options & SDWebImageLowPriority) downloaderOptions |= SDWebImageDownloaderLowPriority;
@@ -184,6 +187,7 @@
                 // ignore image read from NSURLCache if image if cached but force refreshing
                 downloaderOptions |= SDWebImageDownloaderIgnoreCachedResponse;
             }
+            //使用imageDownloader进行下载
             id <SDWebImageOperation> subOperation = [self.imageDownloader downloadImageWithURL:url options:downloaderOptions progress:progressBlock completed:^(UIImage *downloadedImage, NSData *data, NSError *error, BOOL finished) {
                 __strong __typeof(weakOperation) strongOperation = weakOperation;
                 if (!strongOperation || strongOperation.isCancelled) {
@@ -225,12 +229,12 @@
                     else if (downloadedImage && (!downloadedImage.images || (options & SDWebImageTransformAnimatedImage)) && [self.delegate respondsToSelector:@selector(imageManager:transformDownloadedImage:withURL:)]) {
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                             UIImage *transformedImage = [self.delegate imageManager:self transformDownloadedImage:downloadedImage withURL:url];
-
+                            //图片下载完成之后，进图片缓存到cache和disk上面
                             if (transformedImage && finished) {
                                 BOOL imageWasTransformed = ![transformedImage isEqual:downloadedImage];
                                 [self.imageCache storeImage:transformedImage recalculateFromImage:imageWasTransformed imageData:(imageWasTransformed ? nil : data) forKey:key toDisk:cacheOnDisk];
                             }
-
+                            //在主线程返回
                             dispatch_main_sync_safe(^{
                                 if (strongOperation && !strongOperation.isCancelled) {
                                     completedBlock(transformedImage, nil, SDImageCacheTypeNone, finished, url);
@@ -270,6 +274,7 @@
                 }
             };
         }
+        //如果直接在缓存中找到了图片，那么直接在主线程返回
         else if (image) {
             dispatch_main_sync_safe(^{
                 __strong __typeof(weakOperation) strongOperation = weakOperation;

@@ -21,6 +21,7 @@
 {
     self = [super init];
     if (self) {
+        //在内存警告的时候作出相应的处理
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAllObjects) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     }
     return self;
@@ -175,6 +176,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 #pragma mark SDImageCache (private)
 
 - (NSString *)cachedFileNameForKey:(NSString *)key {
+    //根据key生成对应的MD5值作为文件名
     const char *str = [key UTF8String];
     if (str == NULL) {
         str = "";
@@ -203,6 +205,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     // if memory cache is enabled
     if (self.shouldCacheImagesInMemory) {
         NSUInteger cost = SDCacheCostForImage(image);
+        //将图片保存到NSCache，并且把图片的像素*Scale作为cost值方便后面释放Cache
         [self.memCache setObject:image forKey:key cost:cost];
     }
 
@@ -229,7 +232,8 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
                 if ([imageData length] >= [kPNGSignatureData length]) {
                     imageIsPng = ImageDataHasPNGPreffix(imageData);
                 }
-
+                
+                //针对PNG和JPEG进行不同的存储处理
                 if (imageIsPng) {
                     data = UIImagePNGRepresentation(image);
                 }
@@ -369,9 +373,11 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 - (UIImage *)diskImageForKey:(NSString *)key {
     NSData *data = [self diskImageDataBySearchingAllPathsForKey:key];
     if (data) {
+        //将NSData转成UIImage
         UIImage *image = [UIImage sd_imageWithData:data];
         image = [self scaledImageForKey:key image:image];
         if (self.shouldDecompressImages) {
+            //完成对Image的解码工作
             image = [UIImage decodedImageWithImage:image];
         }
         return image;
@@ -396,25 +402,27 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     }
 
     // First check the in-memory cache...
+    //查找内存中的图片
     UIImage *image = [self imageFromMemoryCacheForKey:key];
     if (image) {
         doneBlock(image, SDImageCacheTypeMemory);
         return nil;
     }
-
+    //硬盘查找
     NSOperation *operation = [NSOperation new];
     dispatch_async(self.ioQueue, ^{
         if (operation.isCancelled) {
             return;
         }
-
+        //创建自动释放池，及时释放内存
         @autoreleasepool {
             UIImage *diskImage = [self diskImageForKey:key];
             if (diskImage && self.shouldCacheImagesInMemory) {
                 NSUInteger cost = SDCacheCostForImage(diskImage);
+                //找到后先存入内存缓存中
                 [self.memCache setObject:diskImage forKey:key cost:cost];
             }
-
+            //缓存到内存中去后再返回给主线程
             dispatch_async(dispatch_get_main_queue(), ^{
                 doneBlock(diskImage, SDImageCacheTypeDisk);
             });

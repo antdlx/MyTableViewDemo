@@ -412,6 +412,7 @@ didReceiveResponse:(NSURLResponse *)response
             if (self.options & SDWebImageDownloaderIgnoreCachedResponse && responseFromCached) {
                 completionBlock(nil, nil, nil, YES);
             } else if (self.imageData) {
+                //将下载的image保存成NSMutableData
                 UIImage *image = [UIImage sd_imageWithData:self.imageData];
                 NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
                 image = [self scaledImageForKey:key image:image];
@@ -419,6 +420,7 @@ didReceiveResponse:(NSURLResponse *)response
                 // Do not force decoding animated GIFs
                 if (!image.images) {
                     if (self.shouldDecompressImages) {
+                        //在当前线程（这里是子线程）进行解码
                         image = [UIImage decodedImageWithImage:image];
                     }
                 }
@@ -426,6 +428,7 @@ didReceiveResponse:(NSURLResponse *)response
                     completionBlock(nil, nil, [NSError errorWithDomain:SDWebImageErrorDomain code:0 userInfo:@{NSLocalizedDescriptionKey : @"Downloaded image has 0 pixels"}], YES);
                 }
                 else {
+                    //对image进行Cache缓存
                     completionBlock(image, self.imageData, nil, YES);
                 }
             } else {

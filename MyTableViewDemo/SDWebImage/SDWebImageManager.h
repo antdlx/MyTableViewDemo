@@ -15,23 +15,27 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
     /**
      * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won't keep trying.
      * This flag disable this blacklisting.
+     * 图片下载失败之后会重新尝试
      */
     SDWebImageRetryFailed = 1 << 0,
 
     /**
      * By default, image downloads are started during UI interactions, this flags disable this feature,
      * leading to delayed download on UIScrollView deceleration for instance.
+     * 将图片的下载延迟到scrollView减速的时候开始
      */
     SDWebImageLowPriority = 1 << 1,
 
     /**
      * This flag disables on-disk caching
+     * 只能缓存到内存，不能缓存到磁盘
      */
     SDWebImageCacheMemoryOnly = 1 << 2,
 
     /**
      * This flag enables progressive download, the image is displayed progressively during download as a browser would do.
      * By default, the image is only displayed once completely downloaded.
+     * 边下载边显示
      */
     SDWebImageProgressiveDownload = 1 << 3,
 
@@ -42,6 +46,7 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
      * If a cached image is refreshed, the completion block is called once with the cached image and again with the final image.
      *
      * Use this flag only if you can't make your URLs static with embedded cache busting parameter.
+     * 使用NSURLCache代替SDWebImage自己的磁盘缓存
      */
     SDWebImageRefreshCached = 1 << 4,
 
@@ -152,8 +157,9 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
 @interface SDWebImageManager : NSObject
 
 @property (weak, nonatomic) id <SDWebImageManagerDelegate> delegate;
-
+//负责管理cache，管理内存和磁盘的缓存
 @property (strong, nonatomic, readonly) SDImageCache *imageCache;
+//负责从网络下载图片
 @property (strong, nonatomic, readonly) SDWebImageDownloader *imageDownloader;
 
 /**

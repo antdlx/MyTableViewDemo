@@ -137,19 +137,23 @@ static NSString *const kCompletedCallbackKey = @"completed";
     [self addProgressCallback:progressBlock completedBlock:completedBlock forURL:url createCallback:^{
         NSTimeInterval timeoutInterval = wself.downloadTimeout;
         if (timeoutInterval == 0.0) {
+            //超时时间15s
             timeoutInterval = 15.0;
         }
 
         // In order to prevent from potential duplicate caching (NSURLCache + SDImageCache) we disable the cache for image requests if told otherwise
+        //防止NSURLCache和SDImageCache重复缓存
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:(options & SDWebImageDownloaderUseNSURLCache ? NSURLRequestUseProtocolCachePolicy : NSURLRequestReloadIgnoringLocalCacheData) timeoutInterval:timeoutInterval];
         request.HTTPShouldHandleCookies = (options & SDWebImageDownloaderHandleCookies);
         request.HTTPShouldUsePipelining = YES;
+        //设置hTTP头部
         if (wself.headersFilter) {
             request.allHTTPHeaderFields = wself.headersFilter(url, [wself.HTTPHeaders copy]);
         }
         else {
             request.allHTTPHeaderFields = wself.HTTPHeaders;
         }
+        //负责下载工作的operation
         operation = [[wself.operationClass alloc] initWithRequest:request
                                                         inSession:self.session
                                                           options:options
@@ -189,6 +193,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
                                                                 [sself.URLCallbacks removeObjectForKey:url];
                                                             });
                                                         }];
+        //是否需要解码
         operation.shouldDecompressImages = wself.shouldDecompressImages;
         
         if (wself.urlCredential) {
@@ -202,10 +207,11 @@ static NSString *const kCompletedCallbackKey = @"completed";
         } else if (options & SDWebImageDownloaderLowPriority) {
             operation.queuePriority = NSOperationQueuePriorityLow;
         }
-
+        //执行下载任务
         [wself.downloadQueue addOperation:operation];
         if (wself.executionOrder == SDWebImageDownloaderLIFOExecutionOrder) {
             // Emulate LIFO execution order by systematically adding new operations as last operation's dependency
+            //后面添加的任务先下载，last in first out
             [wself.lastAddedOperation addDependency:operation];
             wself.lastAddedOperation = operation;
         }

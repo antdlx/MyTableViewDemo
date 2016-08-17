@@ -42,7 +42,10 @@ static char TAG_ACTIVITY_SHOW;
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+    //  取消正在下载的操作
     [self sd_cancelCurrentImageLoad];
+    
+    //关联该view和URL，OBJC_ASSOCIATION_RETAIN_NONATOMIC强关联
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     if (!(options & SDWebImageDelayPlaceholder)) {
@@ -57,11 +60,14 @@ static char TAG_ACTIVITY_SHOW;
         if ([self showActivityIndicatorView]) {
             [self addActivityIndicator];
         }
-
+        
+        //防止循环调用，为什么内部不用强引用？
         __weak __typeof(self)wself = self;
+        //由SDWebImageManager负责下载图片
         id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             [wself removeActivityIndicator];
             if (!wself) return;
+            //获取图片到主线程层展现出来
             dispatch_main_sync_safe(^{
                 if (!wself) return;
                 if (image && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
@@ -279,3 +285,5 @@ static char TAG_ACTIVITY_SHOW;
 }
 
 @end
+
+
