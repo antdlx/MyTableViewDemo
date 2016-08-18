@@ -15,7 +15,7 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
     /**
      * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won't keep trying.
      * This flag disable this blacklisting.
-     * 图片下载失败之后会重新尝试
+     * 图片下载失败之后再次需要加载的时候会重新尝试
      */
     SDWebImageRetryFailed = 1 << 0,
 

@@ -243,11 +243,14 @@ didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     //获取http头
     NSDictionary* dict = [(NSHTTPURLResponse *)response allHeaderFields];
-    NSLog(@"response is %@",dict);
+    NSInteger errorCode = [dict[@"errorCode"] integerValue];
+    NSString * defaultIcon = @"noError";
+    defaultIcon = dict[@"defaultIcon"];
+    NSLog(@"errorCode is %ld ； and defaultIcon is %@ ; and statusCode is %ld",errorCode,defaultIcon,[((NSHTTPURLResponse *)response) statusCode]);
     
     //'304 Not Modified' is an exceptional one
     //下载图片成功且不是304
-    if (![response respondsToSelector:@selector(statusCode)] || ([((NSHTTPURLResponse *)response) statusCode] < 400 && [((NSHTTPURLResponse *)response) statusCode] != 304)) {
+    if (![response respondsToSelector:@selector(statusCode)] || ([((NSHTTPURLResponse *)response) statusCode] < 400 && [((NSHTTPURLResponse *)response) statusCode] != 304 && errorCode != 666)) {
         NSInteger expected = response.expectedContentLength > 0 ? (NSInteger)response.expectedContentLength : 0;
         self.expectedSize = expected;
         if (self.progressBlock) {
@@ -269,6 +272,7 @@ didReceiveResponse:(NSURLResponse *)response
         if (code == 304) {
             [self cancelInternal];
         } else {
+            //有错误就取消了这次网络连接的task，下一个DidReceiveData的代理方法就不会被调用了
             [self.dataTask cancel];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -277,8 +281,10 @@ didReceiveResponse:(NSURLResponse *)response
         
         if (self.completedBlock) {
             //设置完成后执行的block，仅在失败的时候执行
-            NSLog(@"status code is %ld",[((NSHTTPURLResponse *)response) statusCode]);
-            self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:[((NSHTTPURLResponse *)response) statusCode] userInfo:nil], YES);
+            NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
+            //从这里跳转到SDWebImageManager的downloadImageWithURL方法202行
+            NSData * DeafultIconData = [defaultIcon dataUsingEncoding:NSUTF8StringEncoding];
+            self.completedBlock(nil, DeafultIconData, [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:nil], YES);
         }
         [self done];
     }
@@ -289,6 +295,7 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    
     [self.imageData appendData:data];
 
     if ((self.options & SDWebImageDownloaderProgressiveDownload) && self.expectedSize > 0 && self.completedBlock) {
@@ -392,6 +399,7 @@ didReceiveResponse:(NSURLResponse *)response
 
 #pragma mark NSURLSessionTaskDelegate
 
+//这里的Error仅仅是客户端方面的错误
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     @synchronized(self) {
         self.thread = nil;

@@ -198,10 +198,16 @@
                     // See #699 for more details
                     // if we would call the completedBlock, there could be a race condition between this block and another completedBlock for the same object, so if this one is called second, we will overwrite the new data
                 }
+                //执行完下载，若有错误的话
                 else if (error) {
                     dispatch_main_sync_safe(^{
                         if (strongOperation && !strongOperation.isCancelled) {
-                            completedBlock(nil, error, SDImageCacheTypeNone, finished, url);
+                            //调用的是在最开始setimageWithURL的时候初始化的completedBlock，可能为空
+                            if (![[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] isEqualToString:@"noError"]) {
+                                NSLog(@"ErrorURL is %@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] );
+                                completedBlock(nil, error, SDImageCacheTypeNone, finished, [NSURL URLWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]);
+                            }else{
+                                completedBlock(nil, error, SDImageCacheTypeNone, finished, url);}
                         }
                     });
 
@@ -232,7 +238,7 @@
                     else if (downloadedImage && (!downloadedImage.images || (options & SDWebImageTransformAnimatedImage)) && [self.delegate respondsToSelector:@selector(imageManager:transformDownloadedImage:withURL:)]) {
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                             UIImage *transformedImage = [self.delegate imageManager:self transformDownloadedImage:downloadedImage withURL:url];
-                            //图片下载完成之后，进图片缓存到cache和disk上面
+                            //图片下载完成之后，将图片缓存到cache和disk上面
                             if (transformedImage && finished) {
                                 BOOL imageWasTransformed = ![transformedImage isEqual:downloadedImage];
                                 [self.imageCache storeImage:transformedImage recalculateFromImage:imageWasTransformed imageData:(imageWasTransformed ? nil : data) forKey:key toDisk:cacheOnDisk];
