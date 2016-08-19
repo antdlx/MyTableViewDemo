@@ -203,12 +203,9 @@
                     dispatch_main_sync_safe(^{
                         if (strongOperation && !strongOperation.isCancelled) {
                             //调用的是在最开始setimageWithURL的时候初始化的completedBlock，可能为空
-                            if (![[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] isEqualToString:@"noError"]) {
-                                NSLog(@"ErrorURL is %@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] );
-                                completedBlock(nil, error, SDImageCacheTypeNone, finished, [NSURL URLWithString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]);
-                            }else{
-                                completedBlock(nil, error, SDImageCacheTypeNone, finished, url);}
-                        }
+
+                            completedBlock(nil, error, SDImageCacheTypeNone, finished, url);}
+                        
                     });
 
                     if ( error.code != NSURLErrorNotConnectedToInternet

@@ -244,9 +244,7 @@ didReceiveResponse:(NSURLResponse *)response
     //获取http头
     NSDictionary* dict = [(NSHTTPURLResponse *)response allHeaderFields];
     NSInteger errorCode = [dict[@"errorCode"] integerValue];
-    NSString * defaultIcon = @"noError";
-    defaultIcon = dict[@"defaultIcon"];
-    NSLog(@"errorCode is %ld ； and defaultIcon is %@ ; and statusCode is %ld",errorCode,defaultIcon,[((NSHTTPURLResponse *)response) statusCode]);
+    NSLog(@"errorCode is %ld ; and statusCode is %ld",errorCode,[((NSHTTPURLResponse *)response) statusCode]);
     
     //'304 Not Modified' is an exceptional one
     //下载图片成功且不是304
@@ -283,8 +281,7 @@ didReceiveResponse:(NSURLResponse *)response
             //设置完成后执行的block，仅在失败的时候执行
             NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
             //从这里跳转到SDWebImageManager的downloadImageWithURL方法202行
-            NSData * DeafultIconData = [defaultIcon dataUsingEncoding:NSUTF8StringEncoding];
-            self.completedBlock(nil, DeafultIconData, [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:nil], YES);
+            self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:nil], YES);
         }
         [self done];
     }

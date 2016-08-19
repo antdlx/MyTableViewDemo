@@ -88,8 +88,9 @@ static char TAG_ACTIVITY_SHOW;
                     }
                 }
                 if (completedBlock && finished) {
-                    NSLog(@"2222222222");
+
                     completedBlock(image, error, cacheType, url);
+                    
                 }
             });
         }];
