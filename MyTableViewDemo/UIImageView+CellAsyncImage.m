@@ -99,8 +99,8 @@ static NSOperationQueue * queue = nil;
                         images[url] = image;
                         
                         //下载完成的图片存入沙盒中UIImage --> NSData --> File（文件）
-                        NSData* ImageData = UIImagePNGRepresentation(image);
-                        
+                        //UIImageJPEGRepresentation第二个参数，0表示无压缩，1表示最大压缩率
+                        NSData* ImageData = UIImageJPEGRepresentation(image, 1);
                         [ImageData writeToFile:filePath atomically:YES];
                     }
                     

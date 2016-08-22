@@ -284,6 +284,7 @@ didReceiveResponse:(NSURLResponse *)response
             self.completedBlock(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:nil], YES);
         }
         [self done];
+
     }
     
     if (completionHandler) {
