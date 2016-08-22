@@ -243,8 +243,10 @@ didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
     //获取http头
     NSDictionary* dict = [(NSHTTPURLResponse *)response allHeaderFields];
-    NSInteger errorCode = [dict[@"errorCode"] integerValue];
-    NSLog(@"errorCode is %ld ; and statusCode is %ld",errorCode,[((NSHTTPURLResponse *)response) statusCode]);
+    NSNumber *num = [NSNumber numberWithInteger:[dict[@"errorCode"] integerValue]];
+    //一般需要对取出的数值先进行类型判断
+    NSInteger errorCode = [num isKindOfClass:[NSNumber class]] ? [num integerValue] : 0;
+    NSLog(@"errorCode is %ld ; and statusCode is %ld",errorCode,[num integerValue]);
     
     //'304 Not Modified' is an exceptional one
     //下载图片成功且不是304
